@@ -1,0 +1,9 @@
+django
+django-channels
+django-redis
+channels-redis
+psycopg2
+loguru
+channels
+django-cors-headers
+asgiref
