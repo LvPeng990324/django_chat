@@ -203,6 +203,7 @@ class ChatLog(models.Model):
             'have_read': self.have_read,
             'read_time': datetime_to_str(self.read_time),
             'content': self.content,
+            'sender': self.sender.user_id,
             'create_time': datetime_to_str(self.create_time),
         }
 
