@@ -208,4 +208,5 @@ class ChatLog(models.Model):
         }
 
 
+# TODO 写一个提交聊天记录时更新响应session最近活跃时间的信号方法
 

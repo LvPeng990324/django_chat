@@ -5,6 +5,7 @@ from Chat.apis.ChatUserInfo import ChatUserInfo
 from Chat.apis.GetUserSig import GetUserSig
 from Chat.apis.ChatLogInfo import ChatLogInfo
 from Chat.apis.CreateSession import CreateSession
+from Chat.apis.SessionInfo import SessionInfo
 
 urlpatterns = [
     # 创建用户
@@ -17,4 +18,6 @@ urlpatterns = [
     path('chat-log-info/', ChatLogInfo.as_view(), name='chat_log_info'),
     # 创建会话
     path('create-session/', CreateSession.as_view(), name='create_session'),
+    # 会话信息
+    path('session-info/', SessionInfo.as_view(), name='session_info'),
 ]
