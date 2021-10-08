@@ -7,6 +7,8 @@ from Chat.apis.ChatLogInfo import ChatLogInfo
 from Chat.apis.CreateSession import CreateSession
 from Chat.apis.SessionInfo import SessionInfo
 
+app_name = 'Chat'
+
 urlpatterns = [
     # 创建用户
     path('create-chat-user/', CreateChatUser.as_view(), name='create_chat_user'),
