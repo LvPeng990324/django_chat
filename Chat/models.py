@@ -153,7 +153,7 @@ class Session(models.Model):
             return recently_chat_log.base_out_info()
         else:
             # 不存在消息
-            return {}
+            return None
 
     def get_chat_user_info_list(self) -> list:
         """ 获取参与用户信息
