@@ -56,7 +56,9 @@ class CreateSession(View):
         # 返回成功信息
         return response_200(
             message='创建成功',
-            data=new_session.out_info(self_user_id=self_user_id),
+            data={
+                'session': new_session.out_info(self_user_id=self_user_id),
+            },
         )
 
 
