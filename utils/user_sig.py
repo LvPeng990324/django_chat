@@ -29,7 +29,7 @@ def get_user_id_from_user_sig(user_sig):
 def get_user_id_from_headers(headers: dict):
     """ 从headers中获取user_id
     """
-    user_sig = headers.get('UserSig')
+    user_sig = headers.get('Authorization')
     user_id = get_user_id_from_user_sig(user_sig=user_sig)
     return user_id
 
@@ -39,7 +39,7 @@ def check_user_sig(func):
     """
     def wrapper(request, *args, **kwargs):
         # 获取userToken，在headers里叫Authorization
-        user_sig_received = request.headers.get('UserSig', '')
+        user_sig_received = request.headers.get('Authorization', '')
         # 验证user_sig有效性
         redis_cli = get_redis_connection('userSig')
         if not redis_cli.get(user_sig_received):
