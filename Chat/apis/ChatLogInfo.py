@@ -1,19 +1,22 @@
 from django.views import View
 from django.core.paginator import Paginator
+from django.utils.decorators import method_decorator
 
 from Chat.models import ChatLog
 
 from utils.custom_reponse import response_200
+from utils.user_sig import check_user_sig
 
 
 class ChatLogInfo(View):
     """ 聊天记录
     """
+    @method_decorator(check_user_sig)
     def get(self, request):
         """ 获取聊天记录
+        TODO 这里考虑要不要验证下要请求的session是否包含当前用户，防止利用接口查看别人聊天记录问题
         """
         # 获取信息
-        # user_id = request.GET.get('user_id')
         session_id = request.GET.get('session_id')
         # 分页信息
         page_size = request.GET.get('page_size', 10)

@@ -9,6 +9,7 @@ from utils.custom_reponse import response_400
 
 class CreateChatUser(View):
     """ 创建用户
+    这个应该不用做user_sig验证，毕竟还没有创建ChatUser
     """
     def post(self, request):
         # 获取信息

@@ -17,6 +17,7 @@ userSigExpireTime = 500  # TODO user_sig过期时间，5秒，这里先设置为
 class GetUserSig(View):
     """ 获取user_sig
     user_sig是用于登录聊天websocket接口的密钥，与user_id一一对应来验证
+    也当作请求Token进行HTTP接口请求验证，可从中提取到ChatUser的user_id
     """
     def post(self, request):
         """ 通过自定规则生成的token来验证请求是否有效

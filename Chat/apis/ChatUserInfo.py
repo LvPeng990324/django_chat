@@ -1,15 +1,18 @@
 from django.views import View
+from django.utils.decorators import method_decorator
 
 from Chat.models import ChatUser
 
 from utils.custom_reponse import response_200
 from utils.custom_reponse import response_404
+from utils.user_sig import check_user_sig
 
 
 class ChatUserInfo(View):
     """ 用户信息
     通过user_id获取用户
     """
+    @method_decorator(check_user_sig)
     def get(self, request):
         """ 通过user_id来获取用户信息
         """
