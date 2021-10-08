@@ -149,7 +149,11 @@ class Session(models.Model):
         recently_chat_log = ChatLog.objects.filter(
             session=self,  # 要session是本session的
         ).last()  # 要最后一条
-        return recently_chat_log.base_out_info()
+        if recently_chat_log:
+            return recently_chat_log.base_out_info()
+        else:
+            # 不存在消息
+            return {}
 
     def get_chat_user_info_list(self) -> list:
         """ 获取参与用户信息
