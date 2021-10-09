@@ -26,7 +26,7 @@ class SessionInfo(View):
         # 获取这个人的会话们
         sessions = Session.objects.filter(
             chat_users__user_id__contains=user_id,
-        ).order_by('-create_time')  # TODO 改为根据最近活跃时间排序
+        ).order_by('-recently_active_time')  # 根据最近活跃时间排序
 
         # 判断是否给了total
         if not total:
