@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*', ]
 
+# 部署域名，注意没有最后的斜杠
+DEPLOY_DOMAIN = 'http://localhost:9998'
+
 
 # Application definition
 
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     'channels',
     'corsheaders',
     'Chat.apps.ChatConfig',
+    'File.apps.FileConfig',
 ]
 
 MIDDLEWARE = [
@@ -142,6 +146,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -14,9 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.static import serve
+from django_chat.settings import MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('Chat.urls')),
+    path('file/', include('File.urls')),
+
+    # 配置静态文件访问路由
+    re_path(r'media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
 ]

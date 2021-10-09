@@ -1,6 +1,7 @@
 # 数据转换器工具
 import datetime
 from typing import Text
+from django_chat.settings import DEPLOY_DOMAIN
 
 
 def date_to_str(date: datetime.date) -> Text:
@@ -19,3 +20,10 @@ def datetime_to_str(time: datetime.datetime) -> Text:
     if not time:
         return time
     return time.strftime('%Y-%m-%d %H:%M:%S')
+
+
+def get_media_url(file_url):
+    """ 获取文件访问URL方法
+    将传来的路径直接拼接部署域名
+    """
+    return DEPLOY_DOMAIN + file_url
