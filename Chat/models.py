@@ -1,5 +1,7 @@
 from django.db import models
 import datetime
+from django.dispatch import receiver
+from django.db.models import signals
 
 from utils.data_converter import datetime_to_str
 from utils.data_converter import date_to_str
@@ -85,6 +87,7 @@ class Session(models.Model):
     chat_users = models.ManyToManyField(ChatUser, verbose_name='会话参与者', help_text='会话参与者')
 
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间', help_text='创建时间')
+    recently_active_time = models.DateTimeField(auto_now_add=True, verbose_name='最近活跃时间', help_text='最近活跃时间')
 
     class Meta:
         verbose_name_plural = '聊天会话'
@@ -166,6 +169,11 @@ class Session(models.Model):
             chat_user_info_list.append(chat_user.out_info())
         return chat_user_info_list
 
+    def get_recently_active_time(self):
+        """ 获取最近活跃时间
+        """
+        return self.recently_active_time
+
 
 class ChatLog(models.Model):
     """ 聊天记录
@@ -212,5 +220,13 @@ class ChatLog(models.Model):
         }
 
 
-# TODO 写一个提交聊天记录时更新响应session最近活跃时间的信号方法
+@receiver(signal=signals.post_save, sender=ChatLog)
+def update_session_recently_active_time(sender, instance: ChatLog, **kwargs):
+    """ 自动更新session的最近活跃时间信号触发器
+    """
+    # 取出当前聊天记录对应的session
+    session = instance.session
+    # 更新最近活跃时间到现在
+    session.recently_active_time = datetime.datetime.now()
+    session.save()
 
