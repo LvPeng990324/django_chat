@@ -8,6 +8,7 @@ from Chat.models import Session
 
 from utils.logger import logger
 from utils.session import get_or_create_single_session_by_user_ids
+from utils.session import get_session_by_session_id
 
 online_user_dict = {}  # 记录在线的用户字典
 
@@ -72,23 +73,28 @@ class ChatConsumer(JsonWebsocketConsumer):
     def receive_json(self, content, **kwargs):
         """ 收到前端来的消息
         """
-        # 取出接收者
-        receiver_user_id = content.get('to')  # 取出接收者user_id
-        if receiver_user_id not in online_user_dict:  # 判断接收者是否在线
-            # TODO 接收者不在线
-            pass
-        receiver_ws = online_user_dict.get(receiver_user_id)  # 取出接收者在线对象
-        # 获取session
-        session = get_or_create_single_session_by_user_ids(user_id_list=[self.user_id, receiver_user_id])
+        # 取出接收消息的session_id
+        receiver_session_id = content.get('to_session')  # 取出接收消息的session_id
+
+        # 取出这个session
+        receiver_session = get_session_by_session_id(session_id=receiver_session_id)
+
         # 保存聊天记录
-        new_chat_log = self.save_message(sender=self.chat_user_db, session=session, content=content.get('content'))
+        new_chat_log = self.save_message(sender=self.chat_user_db, session=receiver_session, content=content.get('content'))
 
-        # 给接收者发送消息
-        receiver_ws.send_json(content={
-            'type': State.MESSAGE_RECEIVED,  # 收到消息
-            'chat_log': new_chat_log.session_add_out_info(self_user_id=receiver_user_id),  # 消息info
-        })
-
+        # 给此session中在线的chat_user发消息
+        to_chat_user_id_list = list(receiver_session.chat_users.exclude(self.chat_user_db).values_list('user_id', flat=True))  # 获取除了自己的用户user_id列表
+        # 遍历这些用户，给在线的发消息
+        for to_chat_user_id in to_chat_user_id_list:
+            if to_chat_user_id in online_user_dict:
+                # 此用户在线，发消息
+                online_user_dict.get(to_chat_user_id).send_json(content={
+                    'type': State.MESSAGE_RECEIVED,  # 收到消息
+                    'chat_log': new_chat_log.session_add_out_info(self_user_id=to_chat_user_id),  # 消息info
+                })
+            else:
+                # 此用户不在线，暂时不采取动作
+                pass
         # 给发送者发送成功响应
         self.send_json(content={
             'type': State.MESSAGE_SEND_SUCCESS,  # 消息发送成功

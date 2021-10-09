@@ -50,4 +50,9 @@ def get_or_create_single_session_by_user_ids(user_id_list: [ChatUser.user_id]) -
     return new_session
 
 
+def get_session_by_session_id(session_id):
+    """ 通过session_id获取session
+    """
+    return Session.objects.get(id=session_id)
+
 

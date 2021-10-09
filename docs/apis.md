@@ -92,7 +92,7 @@
 - ### 发消息 ***TODO：尚未支持离线消息***
   - 请求：
     > json格式，需要有:
-    - `to` 接收者user_id *字符串* **非空**
+    - `to_session` 接收消息的会话的session_id *字符串/整型* **非空**
     - `content` 消息内容 *字符串* **可选**
   - 响应：
     - > **成功** 返回`MESSAGE_SEND_SUCCESS`常量，附带`消息内容(content)`、`session信息(session)`和`发送者user_id(sender)`
