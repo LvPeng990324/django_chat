@@ -83,7 +83,7 @@ class ChatConsumer(JsonWebsocketConsumer):
         new_chat_log = self.save_message(sender=self.chat_user_db, session=receiver_session, content=content.get('content'))
 
         # 给此session中在线的chat_user发消息
-        to_chat_user_id_list = list(receiver_session.chat_users.exclude(self.chat_user_db).values_list('user_id', flat=True))  # 获取除了自己的用户user_id列表
+        to_chat_user_id_list = list(receiver_session.chat_users.exclude(user_id=self.user_id).values_list('user_id', flat=True))  # 获取除了自己的用户user_id列表
         # 遍历这些用户，给在线的发消息
         for to_chat_user_id in to_chat_user_id_list:
             if to_chat_user_id in online_user_dict:
