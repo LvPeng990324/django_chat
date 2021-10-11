@@ -80,6 +80,16 @@
         - `chat_log_info_list` 聊天记录信息列表
         - `num_of_pages` 总页数
 
+- ### 聊天文件
+  - **POST** `/file/upload-chat-file/` **上传聊天文件**
+  > headers中带 `Authorization`，提前去获取 `user_sig`
+  - 请求参数：
+    - `file` 上传的文件 _文件_ **非空**
+  - 响应：
+    - > **成功** 返回文件信息
+    - > **失败** 
+      - `文件大小超限` 返回自定义的400code _大小限制还未实现_
+
 ## WebSocket接口 - 聊天
 > **ws** `/ws/[user_id]/[user_sig]/` 方括号中是变量
 
