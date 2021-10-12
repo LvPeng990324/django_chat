@@ -1,5 +1,6 @@
 from django.views import View
 from django.utils.decorators import method_decorator
+import json
 
 from Chat.models import Session
 from Chat.models import SessionTypeOption
@@ -21,8 +22,11 @@ class CreateSession(View):
         """
         name = request.POST.get('name')  # 会话名，可重复，不可空
         session_type = request.POST.get('type')  # 会话类型，单选：1单聊、2群聊
-        chat_user_id_list = request.POST.getlist('chat_user_id_list')  # 会话参与者的user_id列表
+        chat_user_id_list = json.loads(request.POST.get('chat_user_id_list'))  # 会话参与者的user_id列表
         self_user_id = get_user_id_from_headers(headers=request.headers)
+
+        print(request.POST)
+        print(type(chat_user_id_list), chat_user_id_list)
 
         # 转换会话类型
         if session_type not in [1, '1', 2, '2']:
@@ -31,6 +35,26 @@ class CreateSession(View):
                 message='会话类型格式有误，只能为1或者2，int或者str',
             )
         session_type = SessionTypeOption(int(session_type))
+
+        # 判断是否存在这个单聊session
+        # 规则是chat_users一样就是
+        if session_type in [1, '1']:
+            # 单聊，进行重复判断
+            session_exists = Session.objects.filter(
+                type=SessionTypeOption.SINGLE,  # 要单聊地
+                chat_users__user_id__contains=chat_user_id_list[0],  # 要包含第一个
+            ).filter(
+                chat_users__user_id__contains=chat_user_id_list[1],  # 要包含第二个
+            )
+            if session_exists.exists():
+                # 已存在
+                session_exists = session_exists.first()
+                return response_200(
+                    message='已存在，不需创建',
+                    data={
+                        'session': session_exists.out_info(self_user_id=self_user_id),
+                    },
+                )
 
         # 取出这些参与者用户
         chat_user_list = []
