@@ -4,6 +4,7 @@ from django.utils.decorators import method_decorator
 from File.models import ChatFile
 
 from utils.custom_reponse import response_200
+from utils.custom_reponse import response_400
 from utils.user_sig import check_user_sig
 from utils.get_md5 import get_file_md5
 
@@ -17,7 +18,14 @@ class UploadChatFile(View):
         """
         upload_file = request.FILES.get('file')
 
-        # TODO 文件筛选检查
+        # 文件筛选检查
+        # 文件大小限制，限制20M以内
+        file_size = upload_file.size / (1024*1024)  # 文件大小(M)
+        if file_size > 20:
+            # 大小超限，返回403
+            return response_400(
+                message='文件大小超限，20M以内',
+            )
 
         # 计算文件md5
         file_md5 = get_file_md5(data=upload_file)
