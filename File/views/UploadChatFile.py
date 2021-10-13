@@ -12,7 +12,7 @@ from utils.get_md5 import get_file_md5
 class UploadChatFile(View):
     """ 上传聊天文件
     """
-    # @method_decorator(check_user_sig)
+    @method_decorator(check_user_sig)
     def post(self, request):
         """ 上传聊天文件
         """
