@@ -91,7 +91,7 @@
       - `文件大小超限` 返回自定义的400code，并提示文件大小超限 _限制20M以内_
 
 ## WebSocket接口 - 聊天
-> **ws** `/ws/[user_id]/[user_sig]/` 方括号中是变量
+> **ws** `/ws/chat/[user_id]/[user_sig]/` 方括号中是变量
 
 - ### 认证
   - 响应：
