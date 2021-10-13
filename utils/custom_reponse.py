@@ -32,7 +32,7 @@ def response_403(message, data=None):
     """
     if data is None:
         data = {}
-    return base_response(code=404, message=message, data=data)
+    return base_response(code=403, message=message, data=data)
 
 
 def response_400(message, data=None):
@@ -40,7 +40,7 @@ def response_400(message, data=None):
     """
     if data is None:
         data = {}
-    return base_response(code=404, message=message, data=data)
+    return base_response(code=400, message=message, data=data)
 
 
 
