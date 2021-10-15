@@ -8,6 +8,7 @@ from Chat.apis.CreateSession import CreateSession
 from Chat.apis.SessionInfo import SessionInfo
 from Chat.apis.GetChatOnlineInfo import GetChatOnlineInfo
 from Chat.apis.ChangeChatUserInfo import ChangeChatUserInfo
+from Chat.apis.MarkAsRead import SingleChatMarkAsRead
 
 app_name = 'Chat'
 
@@ -28,4 +29,6 @@ urlpatterns = [
     path('get-chat-online-info/', GetChatOnlineInfo.as_view(), name='get_chat_online_info'),
     # 更改用户信息
     path('change-chat-user-info/', ChangeChatUserInfo.as_view(), name='change_chat_user_info'),
+    # 单聊标记为已读
+    path('single-chat-mark-as-read/', SingleChatMarkAsRead.as_view(), name='single_chat_mark_as_read'),
 ]

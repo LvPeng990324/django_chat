@@ -87,6 +87,15 @@
         - `num_of_chat_logs` 此会话的聊天记录总数
         - `chat_log_info_list` 聊天记录信息列表
         - `num_of_pages` 总页数
+  - **POST** `/chat/single-chat-mark-as-read/` **单聊标记为已读**
+    > headers中带`Authorization`，提前去获取`user_sig`
+    - 请求参数：
+      - `session_id` 会话id _字符串_ **非空**
+    - 响应：
+      - > **成功** 返回成功信息以及本次标记已读的信息条数
+      - > **失败** 
+        - `未取到当前用户` 返回自定义的404code
+        - `session不存在或该用户未参与该会话` 返回自定义的404code
 
 - ### 聊天文件
   - **POST** `/file/upload-chat-file/` **上传聊天文件**
