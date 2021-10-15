@@ -119,7 +119,7 @@ class Session(models.Model):
             'name': self.name,  # session的名字
             'session_info': session_info,  # session信息
             'create_time': datetime_to_str(self.create_time),  # session的创建时间
-            'unread_count': self.get_unread_count(),  # 未读消息数
+            'unread_count': self.get_unread_count(self_user_id=self_user_id),  # 未读消息数
             'recently_chat_log': self.get_recently_chat_log(),  # 最近一条消息
         }
 
@@ -141,12 +141,15 @@ class Session(models.Model):
         """
         return {}
 
-    def get_unread_count(self) -> int:
+    def get_unread_count(self, self_user_id) -> int:
         """ 获取未读消息数
+        要只取当前用户（仅单聊）
         """
         return ChatLog.objects.filter(
-            session=self,  # 要session是本session的
+            session_id=self.id,  # 要session是本session的
             have_read=False,  # 要未读的
+        ).exclude(
+            sender__user_id=self_user_id,  # 要排除当前用户的
         ).count()
 
     def get_recently_chat_log(self) -> dict:
