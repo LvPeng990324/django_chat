@@ -9,6 +9,7 @@ from Chat.apis.SessionInfo import SessionInfo
 from Chat.apis.GetChatOnlineInfo import GetChatOnlineInfo
 from Chat.apis.ChangeChatUserInfo import ChangeChatUserInfo
 from Chat.apis.MarkAsRead import SingleChatMarkAsRead
+from Chat.apis.UnreadCount import UnreadCount
 
 app_name = 'Chat'
 
@@ -31,4 +32,6 @@ urlpatterns = [
     path('change-chat-user-info/', ChangeChatUserInfo.as_view(), name='change_chat_user_info'),
     # 单聊标记为已读
     path('single-chat-mark-as-read/', SingleChatMarkAsRead.as_view(), name='single_chat_mark_as_read'),
+    # 获取用户未读消息数量
+    path('unread-count/', UnreadCount.as_view(), name='unread_count'),
 ]
