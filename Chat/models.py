@@ -32,6 +32,9 @@ class ChatUser(models.Model):
     class Meta:
         verbose_name_plural = '聊天用户'
         verbose_name = '聊天用户'
+        indexes = [
+            models.Index(fields=['user_id', ], )
+        ]
 
     def __str__(self):
         return '{id}-{name}'.format(
@@ -189,6 +192,9 @@ class ChatLog(models.Model):
     class Meta:
         verbose_name_plural = '聊天记录'
         verbose_name = '聊天记录'
+        indexes = [
+            models.Index(fields=['create_time', ])
+        ]
 
     def __str__(self):
         return '{}-{}-{}'.format(
