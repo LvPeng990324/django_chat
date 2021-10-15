@@ -8,7 +8,7 @@ class ChatFile(models.Model):
     """ 聊天文件
     """
     md5 = models.CharField(max_length=32, verbose_name='文件md5', help_text='文件md5')
-    file = models.FileField(upload_to='media/chat_file', verbose_name='聊天文件', help_text='聊天文件')
+    file = models.FileField(upload_to='chat_file', verbose_name='聊天文件', help_text='聊天文件')
 
     create_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间', help_text='创建时间')
 
