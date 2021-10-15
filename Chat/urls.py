@@ -6,6 +6,8 @@ from Chat.apis.GetUserSig import GetUserSig
 from Chat.apis.ChatLogInfo import ChatLogInfo
 from Chat.apis.CreateSession import CreateSession
 from Chat.apis.SessionInfo import SessionInfo
+from Chat.apis.GetChatOnlineInfo import GetChatOnlineInfo
+from Chat.apis.ChangeChatUserInfo import ChangeChatUserInfo
 
 app_name = 'Chat'
 
@@ -22,4 +24,8 @@ urlpatterns = [
     path('create-session/', CreateSession.as_view(), name='create_session'),
     # 会话信息
     path('session-info/', SessionInfo.as_view(), name='session_info'),
+    # 获取聊天在线信息（目前仅调试用）
+    path('get-chat-online-info/', GetChatOnlineInfo.as_view(), name='get_chat_online_info'),
+    # 更改用户信息
+    path('change-chat-user-info/', ChangeChatUserInfo.as_view(), name='change_chat_user_info'),
 ]
