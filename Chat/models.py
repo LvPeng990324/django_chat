@@ -226,6 +226,7 @@ class ChatLog(models.Model):
             'content': self.content,
             'sender': self.sender.user_id,
             'create_time': datetime_to_str(self.create_time),
+            'create_timestamp': int(round(self.create_time.timestamp()*1000)),  # 毫秒级时间戳
         }
 
 
