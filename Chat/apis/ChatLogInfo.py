@@ -19,8 +19,8 @@ class ChatLogInfo(View):
         # 获取信息
         session_id = request.GET.get('session_id')
         # 分页信息
-        offset = request.GET.get('offset', 0)  # 偏移量
-        length = request.GET.get('length', 10)  # 获取长度
+        offset = int(request.GET.get('offset', 0))  # 偏移量
+        length = int(request.GET.get('length', 10))  # 获取长度
         total = request.GET.get('total')  # 给了内容就不分页，直接给所有
 
         # 获取这些聊天记录
