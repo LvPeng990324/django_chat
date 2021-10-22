@@ -29,7 +29,7 @@ class SessionInfo(View):
         ).order_by('-recently_active_time')  # 根据最近活跃时间排序
 
         # 判断是否给了total
-        if not total:
+        if total != 'total':
             # 加入分页
             num_of_sessions = sessions.count()  # 统计session总数
             sessions_paged = Paginator(sessions, page_size)

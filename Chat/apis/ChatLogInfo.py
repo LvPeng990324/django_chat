@@ -31,7 +31,7 @@ class ChatLogInfo(View):
         num_of_chat_logs = chat_logs.count()  # 统计此session的聊天记录总数
 
         # 判断是否给了total
-        if not total:
+        if total != 'total':
             chat_logs = chat_logs[offset: offset+length]  # 取这一段
         else:
             # 给所有
