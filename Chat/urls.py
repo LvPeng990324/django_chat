@@ -10,6 +10,8 @@ from Chat.apis.GetChatOnlineInfo import GetChatOnlineInfo
 from Chat.apis.ChangeChatUserInfo import ChangeChatUserInfo
 from Chat.apis.MarkAsRead import SingleChatMarkAsRead
 from Chat.apis.UnreadCount import UnreadCount
+from Chat.apis.ChatLogin import ChatLogin
+from Chat.apis.ChatLogout import ChatLogout
 
 app_name = 'Chat'
 
@@ -34,4 +36,8 @@ urlpatterns = [
     path('single-chat-mark-as-read/', SingleChatMarkAsRead.as_view(), name='single_chat_mark_as_read'),
     # 获取用户未读消息数量
     path('unread-count/', UnreadCount.as_view(), name='unread_count'),
+    # 聊天登录
+    path('chat-login/', ChatLogin.as_view(), name='chat_login'),
+    # 聊天登出
+    path('chat-logout/', ChatLogout.as_view(), name='chat_logout'),
 ]
