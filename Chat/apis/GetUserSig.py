@@ -21,16 +21,13 @@ class GetUserSig(View):
     """
     def post(self, request):
         """ 通过自定规则生成的token来验证请求是否有效
-        token生成规则：md5({user_id}-{year}-{month}-{day}-{hour}-{minute})
+        token生成规则：md5({user_id})
         """
         user_id = request.POST.get('user_id')
         token = request.POST.get('token')
 
         # 按照规则生成token
-        token_raw = '-'.join([
-            str(user_id),
-            time.strftime('%Y-%m-%d-%H-%M', time.localtime()),
-        ])
+        token_raw = user_id
         token_correct = get_md5(data=token_raw)
 
         # 验证token
