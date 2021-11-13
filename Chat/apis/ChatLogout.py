@@ -37,8 +37,10 @@ class ChatLogout(View):
         # 取出该用户已登录设备们了
 
         # 取出该设备
-        chat_device = user_device_dict.get(device_id)
-        if chat_device is None:
+        if device_id in user_device_dict.keys():
+            # 从已登录设备中弹出该设备
+            chat_device = online_user_dict[user_id].pop(device_id)
+        else:
             # 该用户下无该设备登录记录
             return response_404(
                 message='该用户下无该设备登录记录',
@@ -52,6 +54,10 @@ class ChatLogout(View):
         chat_device.user_id = None
         chat_device.state = State.LOGOUT_SUCCESS
         chat_device.chat_user_db = None
+
+        # 判断如果当前用户已无已登录设备，就从在线记录中删除该用户
+        if online_user_dict.get(user_id) == {}:
+            online_user_dict.pop(user_id)
 
         # 记录日志
         logger.info(f'{user_id} 已登出 {device_id}')

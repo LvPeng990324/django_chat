@@ -48,6 +48,9 @@ def delete_login_device_record(user_id, device_id):
         # 删除该记录
         online_user_dict[user_id].pop(device_id)
         logger.info(f'{user_id} 已登录设备 {device_id} 断开连接')
+        # 如果该用户已无已登录设备，就从在线记录中删除该用户
+        if online_user_dict[user_id] == {}:
+            online_user_dict.pop(user_id)
         return True
     else:
         # 该用户下无登录的该设备
