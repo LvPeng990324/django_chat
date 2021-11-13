@@ -65,6 +65,11 @@ class ChatLogin(View):
         # 记录日志
         logger.info(f'{user_id} 已登录为 {device_id}')
 
+        # ws发送登录成功生命周期
+        chat_device.send_json(content={
+            'type': State.LOGIN_SUCCESS,  # 登录成功
+        })
+
         # 返回登录成功
         return response_200(
             message='登录成功',

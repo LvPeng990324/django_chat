@@ -56,6 +56,11 @@ class ChatLogout(View):
         # 记录日志
         logger.info(f'{user_id} 已登出 {device_id}')
 
+        # ws发送登出成功生命周期
+        chat_device.send_json(content={
+            'type': State.LOGOUT_SUCCESS,  # 登出成功
+        })
+
         # 返回登出成功
         return response_200(
             message='登出成功',
