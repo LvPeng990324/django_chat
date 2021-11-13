@@ -100,6 +100,16 @@
         - `num_of_sessions` session总数
         - `session_info_list` session信息列表
         - `num_of_pages` 总页数
+  
+  - **GET** `/chat/search-session/` **搜索会话信息**
+    > headers中带`Authorization`，提前去获取`user_sig`
+    - 请求参数：
+      - `search_text` 搜索文本 _字符串_ **必填** _用于包含筛选的字段_
+      - `total` 获取所有标记 _字符串_ **可选** _只要给了**total**字符串就给所有，不给就各自给前5个_
+    - 响应：
+      - > **成功** 返回信息：
+        - `single_chat_session_info_list` 单聊session信息列表
+        - `group_chat_session_info_list` 群聊session信息列表
 
 
 - ### 聊天记录

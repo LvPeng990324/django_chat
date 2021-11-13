@@ -12,6 +12,7 @@ from Chat.apis.MarkAsRead import SingleChatMarkAsRead
 from Chat.apis.UnreadCount import UnreadCount
 from Chat.apis.ChatLogin import ChatLogin
 from Chat.apis.ChatLogout import ChatLogout
+from Chat.apis.SearchSession import SearchSession
 
 app_name = 'Chat'
 
@@ -40,4 +41,6 @@ urlpatterns = [
     path('chat-login/', ChatLogin.as_view(), name='chat_login'),
     # 聊天登出
     path('chat-logout/', ChatLogout.as_view(), name='chat_logout'),
+    # 搜索会话
+    path('search-session/', SearchSession.as_view(), name='search_session'),
 ]
