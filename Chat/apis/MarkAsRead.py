@@ -47,6 +47,8 @@ class SingleChatMarkAsRead(View):
             ).exclude(
                 sender=chat_user,  # 不要发送者是当前用户的，也即接收者是当前用户的
             )
+            # 改下session_id，用于下方记录日志
+            session_id = '所有会话'
         else:
             # 没给total，正常标记给定的session的给用户的未读消息为已读
             # 取出这个用户参与的该session
