@@ -1,5 +1,4 @@
 from django.views import View
-from django.core.paginator import Paginator
 from django.utils.decorators import method_decorator
 
 from Chat.models import Session
@@ -19,8 +18,8 @@ class SessionInfo(View):
         # 从headers中取出user_id
         user_id = get_user_id_from_headers(headers=request.headers)
         # 获取分页信息
-        page_size = request.GET.get('page_size', 10)
-        page_num = request.GET.get('page_num', 1)
+        offset = int(request.GET.get('offset', 0))  # 偏移量
+        length = int(request.GET.get('length', 10))  # 获取长度
         total = request.GET.get('total')  # 只要给了就是不分页
 
         # 获取这个人的会话们
@@ -28,17 +27,14 @@ class SessionInfo(View):
             chat_users__user_id__contains=user_id,
         ).order_by('-recently_active_time')  # 根据最近活跃时间排序
 
+        num_of_sessions = sessions.count()  # 统计session总数
+
         # 判断是否给了total
         if total != 'total':
-            # 加入分页
-            num_of_sessions = sessions.count()  # 统计session总数
-            sessions_paged = Paginator(sessions, page_size)
-            sessions = sessions_paged.page(page_num)  # 取出第page_num页
-            num_of_pages = sessions_paged.num_pages  # 获取一共有多少页
+            sessions = sessions[offset: offset+length]  # 取出这一段
         else:
-            # 不分页，不操作，补充变量完整
-            num_of_sessions = None
-            num_of_pages = None
+            # 不分页，不操作
+            pass
 
         # 打包session信息
         session_info_list = []
@@ -51,7 +47,6 @@ class SessionInfo(View):
             data={
                 'num_of_sessions': num_of_sessions,  # session总数
                 'session_info_list': session_info_list,  # session信息列表
-                'num_of_pages': num_of_pages,  # 一共多少页
             }
         )
 
