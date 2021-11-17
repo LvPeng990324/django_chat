@@ -92,14 +92,13 @@
     > headers中带`Authorization`，提前去获取`user_sig`
     - 请求参数：
       - 分页信息：
-        - `page_size` 每页数量 _整型_ **可选** _默认值：`10`_
-        - `page_num` 页码 _整型_ **可选** _默认值：`1`_
+        - `offset` 偏移量 _整型_ **可选** _默认值：`0`_
+        - `length` 获取长度 _整型_ **可选** _默认值：`10`_
         - `total` 获取所有标记 _字符串_ **可选** _只要给了**total**字符串就不分页_
     - 响应：
       - > **成功** 返回信息：
         - `num_of_sessions` session总数
         - `session_info_list` session信息列表
-        - `num_of_pages` 总页数
   
   - **GET** `/chat/search-session/` **搜索会话信息**
     > headers中带`Authorization`，提前去获取`user_sig`
