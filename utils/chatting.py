@@ -16,6 +16,7 @@ class State:
     MESSAGE_SEND_SUCCESS = 'onMessageSendSuccess'  # 消息发送成功的响应
     ERROR = 'error'  # 收到 SDK 发生错误通知
     KICKED_OUT = 'kickedOut'  # 收到被踢下线通知
+    CONVERSATION_CREATED = 'onConversationCreated'  # 会话创建
 
 
 # 数据结构设计，支持同一用户多端在线收发消息：
@@ -71,5 +72,25 @@ def delete_logout_device_record(device_id):
         # 未登录中无该设备记录
         logger.error(f'{device_id} 无未登录记录')
         return False
+
+
+def send_to_user_by_user_id(user_id, content) -> int:
+    """ 通过user_id给用户发消息
+    将会遍历这个用户所有的在线设备然后发消息
+
+    user_id: user_id
+    content: 消息体
+
+    返回发送的设备数
+    """
+    sent_device_count = 0  # 记录已经发送的设备数量
+    # 取出该用户所有在线设备
+    online_device_list = online_user_dict.get(user_id, {})  # 如果该用户不在线就默认空列表
+    # 遍历发送
+    for device_id, online_device in online_device_list.items():
+        online_device.send_json(content=content)
+        sent_device_count += 1
+    # 返回结果
+    return sent_device_count
 
 

@@ -16,6 +16,7 @@ from utils.chatting import online_user_dict
 from utils.chatting import logout_device_dict
 from utils.chatting import delete_login_device_record
 from utils.chatting import delete_logout_device_record
+from utils.chatting import send_to_user_by_user_id
 
 
 class ChatConsumer(JsonWebsocketConsumer):
@@ -90,20 +91,24 @@ class ChatConsumer(JsonWebsocketConsumer):
         for to_chat_user_id in to_chat_user_id_list:
             if to_chat_user_id in online_user_dict:
                 # 此用户在线，给他在线的所有设备发消息
-                for receiver_device_id, receiver_device in online_user_dict[to_chat_user_id].items():
-                    receiver_device.send_json(content={
+                send_to_user_by_user_id(
+                    user_id=to_chat_user_id,
+                    content={
                         'type': State.MESSAGE_RECEIVED,  # 收到消息
                         'chat_log': new_chat_log.session_add_out_info(self_user_id=to_chat_user_id),  # 消息info
-                    })
+                    },
+                )
             else:
                 # 此用户不在线，暂时不采取动作
                 pass
         # 给发送者在线设备们发送成功响应
-        for self_device_id, self_device in online_user_dict[self.user_id].items():
-            self_device.send_json(content={
+        send_to_user_by_user_id(
+            user_id=self.user_id,
+            content={
                 'type': State.MESSAGE_SEND_SUCCESS,  # 消息发送成功
                 'chat_log': new_chat_log.session_add_out_info(self_user_id=self.user_id),  # 消息info
-            })
+            },
+        )
 
     def save_message(self, sender: ChatUser, session: Session, content: str):
         """ 保存聊天记录

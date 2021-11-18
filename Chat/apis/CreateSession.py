@@ -11,6 +11,8 @@ from utils.custom_reponse import response_400
 from utils.custom_reponse import response_404
 from utils.user_sig import check_user_sig
 from utils.user_sig import get_user_id_from_headers
+from utils.chatting import send_to_user_by_user_id
+from utils.chatting import State
 
 
 class CreateSession(View):
@@ -76,6 +78,15 @@ class CreateSession(View):
             type=session_type,
         )
         new_session.chat_users.add(*chat_user_list)  # 添加参与者
+
+        # 遍历新会话的参与者们，给他们的在线设备发送会话更新生命周期
+        for chat_user_id in chat_user_id_list:
+            send_to_user_by_user_id(
+                user_id=chat_user_id,
+                content={
+                    'type': State.CONVERSATION_CREATED,  # 会话创建
+                },
+            )
 
         # 返回成功信息
         return response_200(
