@@ -32,7 +32,7 @@ class SearchSession(View):
 
         # 取出此用户的会话们
         sessions = Session.objects.filter(
-            chat_users__user_id__contains=user_id,
+            chat_users__user_id=user_id,
         ).order_by('-recently_active_time')  # 根据最近活跃时间排序
 
         # 搜索单聊
