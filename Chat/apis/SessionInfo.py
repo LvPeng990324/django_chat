@@ -55,6 +55,8 @@ class SessionInfo(View):
         for session in sessions:
             session_info_list.append(session.out_info(self_user_id=user_id))
 
+        logger.info(f'{user_id} 获取了session列表：{list(sessions.values_list("id", flat=True))}')
+
         # 返回响应
         return response_200(
             message='获取成功',
