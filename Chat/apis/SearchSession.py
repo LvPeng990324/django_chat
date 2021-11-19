@@ -39,13 +39,13 @@ class SearchSession(View):
         single_chat_sessions = sessions.filter(
             type=SessionTypeOption.SINGLE,  # 要单聊
             chat_users__name__contains=search_text,  # 要参与用户name包含搜索字段的，这样会有个问题，就是自己的name也会被算上
-        )
+        ).distinct()
 
         # 搜索群聊
         group_chat_sessions = sessions.filter(
             type=SessionTypeOption.GROUP,  # 要群聊
             name__contains=search_text,  # 要群聊session的name包含搜索字段的
-        )
+        ).distinct()
 
         # 判断是否给了total，没给就限制前5个
         if total != 'total':

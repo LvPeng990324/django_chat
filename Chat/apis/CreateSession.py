@@ -44,9 +44,9 @@ class CreateSession(View):
             # 单聊，进行重复判断
             session_exists = Session.objects.filter(
                 type=SessionTypeOption.SINGLE,  # 要单聊地
-                chat_users__user_id__contains=chat_user_id_list[0],  # 要包含第一个
+                chat_users__user_id=chat_user_id_list[0],  # 要包含第一个
             ).filter(
-                chat_users__user_id__contains=chat_user_id_list[1],  # 要包含第二个
+                chat_users__user_id=chat_user_id_list[1],  # 要包含第二个
             )
             if session_exists.exists():
                 # 已存在
@@ -85,15 +85,14 @@ class CreateSession(View):
                 user_id=chat_user_id,
                 content={
                     'type': State.CONVERSATION_CREATED,  # 会话创建
+                    'session': new_session.out_info(self_user_id=self_user_id),
                 },
             )
 
         # 返回成功信息
         return response_200(
             message='创建成功',
-            data={
-                'session': new_session.out_info(self_user_id=self_user_id),
-            },
+            data={},  # 这里不需要数据
         )
 
 
