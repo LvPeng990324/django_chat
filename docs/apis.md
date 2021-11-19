@@ -83,7 +83,7 @@
       - `type` 会话类型 _字符串/整型_ **非空** _单选：`1`单聊、`2`群聊_
       - `chat_user_id_list` 会话参与者的`user_id`列表 _列表_ **非空** _包含自己的用户`user_id`的列表_
     - 响应：
-      - > **成功** 新创建的`session信息`
+      - > **成功** http只返回成功响应，通过ws给在线会话参与者发送会话创建生命周期和新创建的session信息
       - > **失败**
         - `未取到用户` 返回自定义的404code
         - `type格式有误` 返回自定义的400code
@@ -124,6 +124,7 @@
       - > **成功** 返回信息：
         - `num_of_chat_logs` 此会话的聊天记录总数
         - `chat_log_info_list` 聊天记录信息列表
+
   - **POST** `/chat/single-chat-mark-as-read/` **单聊标记为已读**
     > headers中带`Authorization`，提前去获取`user_sig`
     - 请求参数：
@@ -134,6 +135,14 @@
       - > **失败** 
         - `未取到当前用户` 返回自定义的404code
         - `session不存在或该用户未参与该会话` 返回自定义的404code
+
+  - **POST** `/chat/mass-massage/` **消息群发**
+    - 请求参数：
+      - `send_user_id` 发消息的用户user_id _字符串_ **非空**
+      - `receive_user_id_list` 收消息的用户user_id列表 _列表_ **非空**
+      - `to_send_text` 消息文本内容 _字符串_ **非空**
+    - 响应：
+      - > **成功** 返回发送成功的自定义200code响应
 
 
 - ### 聊天文件
