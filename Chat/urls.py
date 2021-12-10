@@ -14,6 +14,7 @@ from Chat.apis.ChatLogin import ChatLogin
 from Chat.apis.ChatLogout import ChatLogout
 from Chat.apis.SearchSession import SearchSession
 from Chat.apis.MassMessage import MassMessage
+from Chat.apis.SystemMessage import SystemMessage
 
 app_name = 'Chat'
 
@@ -46,4 +47,6 @@ urlpatterns = [
     path('search-session/', SearchSession.as_view(), name='search_session'),
     # 群发消息
     path('mass-message/', MassMessage.as_view(), name='mass_message'),
+    # 系统消息
+    path('system-message/', SystemMessage.as_view(), name='system_message'),
 ]

@@ -144,6 +144,14 @@
     - 响应：
       - > **成功** 返回发送成功的自定义200code响应
 
+  - **POST** `/chat/system-massage/` **系统消息**
+    - 请求参数：
+      - `receive_user_id_list` 收消息的用户user_id列表 _列表_ **条件可选，下方send_all_user给了就可不填**
+      - `send_all_user` 是否发送所有用户 _字符串_ **可选** _只要给了**total**字符串就给所有用户发消息_
+      - `to_send_context` 消息体 _JSON字符串_ **非空** _符合消息体标准，可以实现卡片等多种样式_
+    - 响应：
+      - > **成功** 返回发送成功的自定义200code响应
+
 
 - ### 聊天文件
   - **POST** `/file/upload-chat-file/` **上传聊天文件**
