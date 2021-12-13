@@ -27,9 +27,6 @@ class CreateSession(View):
         chat_user_id_list = json.loads(request.POST.get('chat_user_id_list'))  # 会话参与者的user_id列表
         self_user_id = get_user_id_from_headers(headers=request.headers)
 
-        print(request.POST)
-        print(type(chat_user_id_list), chat_user_id_list)
-
         # 转换会话类型
         if session_type not in [1, '1', 2, '2']:
             # 格式有误
@@ -92,7 +89,9 @@ class CreateSession(View):
         # 返回成功信息
         return response_200(
             message='创建成功',
-            data={},  # 这里不需要数据
+            data={
+                'session': new_session.out_info(self_user_id=self_user_id),
+            },
         )
 
 
